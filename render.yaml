@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: tweeter-backend
+    env: docker
+    dockerfilePath: Dockerfile.backend
+    plan: free
+    branch: master
+
+  - type: web
+    name: tweeter-frontend
+    env: docker
+    dockerfilePath: Dockerfile.frontend
+    plan: free
+    branch: master

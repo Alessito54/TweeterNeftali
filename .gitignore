@@ -1,0 +1,27 @@
+# Flutter/Dart
+build/
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache
+.idea/
+.vscode/
+.gradle/
+android/.gradle/
+*.iml
+# macOS
+.DS_Store
+# Node
+node_modules/
+# Logs
+log/
+npm-debug.log*
+# Android
+local.properties
+android/app/debug.keystore
+# iOS
+Pods/
+Runner.xcworkspace/
+GeneratedPluginRegistrant.*

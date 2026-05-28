@@ -1,0 +1,25 @@
+nohup: no se tendrá en cuenta la entrada
+Admin user created: admin / 12345678
+
+╔════════════════════════════════════════════════════════╗
+║      🏍️  API DE MOTOS - EJECUTÁNDOSE                  ║
+╠════════════════════════════════════════════════════════╣
+║  URL: http://localhost:3000                             ║
+║                                                        ║
+║  📝 Credenciales de prueba:                            ║
+║     • Username: admin                                  ║
+║     • Password: 12345678                                ║
+║                                                        ║
+║  🔗 Endpoints:                                         ║
+║     • POST   /api/auth/register - Registrar            ║
+║     • POST   /api/auth/login - Login                   ║
+║     • GET    /api/motos - Ver mis motos                ║
+║     • POST   /api/motos - Crear moto                   ║
+║     • PUT    /api/motos/:id - Editar moto              ║
+║     • DELETE /api/motos/:id - Eliminar moto            ║
+║     • GET    /api/health - Verificar estado            ║
+║                                                        ║
+║  🏍️  Base de datos: 127.0.0.1:5432/motos_db
+║  📸 Cloudinary: dvkzq6c8a                     ║
+╚════════════════════════════════════════════════════════╝
+    
