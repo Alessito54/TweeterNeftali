@@ -585,17 +585,17 @@ app.get('/', (req, res) => {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Tweeter Motos - API</title>
+        <title>AnimeNexus - API</title>
         <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;padding:24px;color:#222}a{color:#0b5fff}</style>
       </head>
       <body>
-        <h1>Tweeter Motos</h1>
-        <p>Esta URL corresponde al servidor backend. Si esperabas ver la aplicación web, despliega el frontend o configura un servicio estático.</p>
+        <h1>AnimeNexus</h1>
+        <p>Esta URL corresponde al servidor backend de AnimeNexus. Si esperabas ver la aplicación web, despliega el frontend o configura un servicio estático.</p>
         <ul>
           <li><a href="/api/health">Comprobar estado de la API</a></li>
           <li><a href="/api/tweets">Listar tweets (API)</a></li>
         </ul>
-        <p>Si quieres que la raíz sirva la app web, puedo ayudarte a desplegar el frontend en Render o a servir los archivos estáticos desde aquí.</p>
+        <p>Si quieres que la raíz sirva la app web, puedo ayudarte a desplegar el frontend de AnimeNexus en Render o a servir los archivos estáticos desde aquí.</p>
       </body>
     </html>
   `);
@@ -607,7 +607,7 @@ db.sequelize.sync().then(async () => {
   app.listen(PORT, () => {
     console.log(`
 ╔════════════════════════════════════════════════════════╗
-║      🏍️  API DE MOTOS - EJECUTÁNDOSE                  ║
+║      ✨  API DE ANIMENEXUS - EJECUTÁNDOSE             ║
 ╠════════════════════════════════════════════════════════╣
 ║  URL: http://localhost:${PORT}                             ║
 ║                                                        ║
@@ -615,16 +615,16 @@ db.sequelize.sync().then(async () => {
 ║     • Username: admin                                  ║
 ║     • Password: 12345678                                ║
 ║                                                        ║
-║  🔗 Endpoints:                                         ║
+║  🔗 Endpoints:                                          ║
 ║     • POST   /api/auth/register - Registrar            ║
 ║     • POST   /api/auth/login - Login                   ║
-║     • GET    /api/motos - Ver mis motos                ║
-║     • POST   /api/motos - Crear moto                   ║
-║     • PUT    /api/motos/:id - Editar moto              ║
-║     • DELETE /api/motos/:id - Eliminar moto            ║
+║     • GET    /api/tweets - Ver publicaciones           ║
+║     • POST   /api/tweets - Crear publicación           ║
+║     • PUT    /api/tweets/:id - Editar publicación      ║
+║     • DELETE /api/tweets/:id - Eliminar publicación    ║
 ║     • GET    /api/health - Verificar estado            ║
 ║                                                        ║
-║  🏍️  Base de datos: ${process.env.DATABASE_URL.split('@')[1] || 'postgresql'}
+║  Base de datos: ${process.env.DATABASE_URL.split('@')[1] || 'postgresql'}
 ║  📸 Cloudinary: ${process.env.CLOUDINARY_CLOUD_NAME}                     ║
 ╚════════════════════════════════════════════════════════╝
     `);
