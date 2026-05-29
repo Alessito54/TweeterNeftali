@@ -1,11 +1,11 @@
 {
-    "name": "TweeterNeftali",
-    "short_name": "TweeterNeftali",
+    "name": "AnimeNexus",
+    "short_name": "AnimeNexus",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FFF5FB",
+    "theme_color": "#8E44AD",
+    "description": "AnimeNexus — share your fanart and anime moments.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

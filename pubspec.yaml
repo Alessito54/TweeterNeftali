@@ -1,5 +1,5 @@
-name: tweeter_neftali
-description: "TweeterNeftali — an anime themed clone of Tweeter"
+name: anime_nexus
+description: "AnimeNexus — a social app for anime fans"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

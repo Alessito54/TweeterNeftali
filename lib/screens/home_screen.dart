@@ -23,9 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final AuthService _authService = AuthService();
 
   final TextEditingController _textController = TextEditingController();
-  final TextEditingController _motoMarcaController = TextEditingController();
-  final TextEditingController _motoModeloController = TextEditingController();
-  final TextEditingController _motoCilindradaController = TextEditingController();
 
   List<Tweet> _tweets = [];
   Map<int, List<Reaction>> _tweetReactions = {};
@@ -56,38 +53,31 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           _tweets = tweets;
         });
-        // Load reactions and replies for each tweet
+
         _tweetReactions.clear();
         _tweetReplies.clear();
-        
+
         for (var tweet in tweets) {
           if (tweet.id != null) {
-            // Extract reactions and replies from tweet if included
             if (tweet.reactions != null && tweet.reactions!.isNotEmpty) {
               _tweetReactions[tweet.id!] = tweet.reactions!
-                  .map((r) => r is Reaction 
-                    ? r 
-                    : Reaction.fromJson(r as Map<String, dynamic>))
+                  .map((r) => r is Reaction ? r : Reaction.fromJson(r as Map<String, dynamic>))
                   .toList();
             } else {
               _tweetReactions[tweet.id!] = [];
             }
-            
+
             if (tweet.replies != null && tweet.replies!.isNotEmpty) {
               _tweetReplies[tweet.id!] = tweet.replies!
-                  .map((r) => r is Reply 
-                    ? r 
-                    : Reply.fromJson(r as Map<String, dynamic>))
+                  .map((r) => r is Reply ? r : Reply.fromJson(r as Map<String, dynamic>))
                   .toList();
             } else {
               _tweetReplies[tweet.id!] = [];
             }
           }
         }
-        
-        if (mounted) {
-          setState(() {});
-        }
+
+        if (mounted) setState(() {});
       }
     } catch (e) {
       if (mounted) {
@@ -142,9 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _createTweet() async {
     final text = _textController.text.trim();
-    final motoMarca = _motoMarcaController.text.trim();
-    final motoModelo = _motoModeloController.text.trim();
-    final motoCilindrada = int.tryParse(_motoCilindradaController.text.trim());
 
     if (text.isEmpty) {
       _showSnackBar('Escribe un comentario para publicar', isError: true);
@@ -163,17 +150,11 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       await _tweetService.createTweet(
         text: text,
-        motoMarca: motoMarca.isEmpty ? null : motoMarca,
-        motoModelo: motoModelo.isEmpty ? null : motoModelo,
-        motoCilindrada: motoCilindrada,
         imageBytes: _selectedImageBytes,
         imageName: _selectedImageName,
       );
 
       _textController.clear();
-      _motoMarcaController.clear();
-      _motoModeloController.clear();
-      _motoCilindradaController.clear();
 
       setState(() {
         _selectedImageBytes = null;
@@ -259,9 +240,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _textController.dispose();
-    _motoMarcaController.dispose();
-    _motoModeloController.dispose();
-    _motoCilindradaController.dispose();
     super.dispose();
   }
 
@@ -286,13 +264,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  Icons.motorcycle,
+                  Icons.emoji_emotions_outlined,
                   color: Theme.of(context).colorScheme.primary,
                   size: 20,
                 ),
               ),
               const SizedBox(width: 10),
-              const Text('Moto Tweeter'),
+              const Text('AnimeNexus'),
             ],
           ),
         ),
@@ -305,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 label: Text(
                   '@$username',
                   style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
+                  ),
                 avatar: CircleAvatar(
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   child: const Icon(Icons.person, size: 14, color: Colors.white),
@@ -361,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                               ),
                               Text(
-                                'Comparte tu moto, una foto y un comentario corto.',
+                                'Comparte tu fanart, captura o un pensamiento corto.',
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       color: Colors.grey.shade600,
                                     ),
@@ -377,43 +355,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       maxLines: 3,
                       decoration: const InputDecoration(
                         labelText: 'Comentario',
-                        hintText: '¿Qué estás rodando hoy?',
+                        hintText: '¿Qué te inspira hoy?',
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _motoMarcaController,
-                            decoration: const InputDecoration(
-                              labelText: 'Marca',
-                              hintText: 'Honda',
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: TextField(
-                            controller: _motoModeloController,
-                            decoration: const InputDecoration(
-                              labelText: 'Modelo',
-                              hintText: 'CB500',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _motoCilindradaController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'Cilindrada (cc)',
-                        hintText: '500',
-                      ),
-                    ),
-                    const SizedBox(height: 14),
                     Row(
                       children: [
                         Expanded(
@@ -421,9 +366,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: _pickImage,
                             icon: const Icon(Icons.image_outlined),
                             label: Text(
-                              _selectedImageName == null
-                                  ? 'Seleccionar imagen'
-                                  : 'Imagen lista',
+                              _selectedImageName == null ? 'Seleccionar imagen' : 'Imagen lista',
                             ),
                           ),
                         ),
@@ -522,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      'Sé el primero en compartir tu moto favorita.',
+                                      'Sé el primero en compartir tu obra favorita.',
                                       textAlign: TextAlign.center,
                                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                             color: Colors.grey.shade600,
@@ -580,18 +523,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       ),
                                                 ),
                                                 const SizedBox(height: 12),
-                                                Wrap(
-                                                  spacing: 8,
-                                                  runSpacing: 8,
-                                                  children: [
-                                                    if (tweet.motoMarca != null && tweet.motoMarca!.isNotEmpty)
-                                                      _InfoChip(label: tweet.motoMarca!, icon: Icons.ev_station),
-                                                    if (tweet.motoModelo != null && tweet.motoModelo!.isNotEmpty)
-                                                      _InfoChip(label: tweet.motoModelo!, icon: Icons.speed),
-                                                    if (tweet.motoCilindrada != null)
-                                                      _InfoChip(label: '${tweet.motoCilindrada} cc', icon: Icons.bolt),
-                                                  ],
-                                                ),
                                                 const SizedBox(height: 10),
                                                 Row(
                                                   children: [
@@ -698,3 +629,4 @@ class _InfoChip extends StatelessWidget {
     );
   }
 }
+ 

@@ -1,6 +1,6 @@
-# TweeterNeftali
+# AnimeNexus
 
-An anime-themed clone of Tweeter.
+An anime-focused social app (forked from original project).
 
 ## Getting Started
 

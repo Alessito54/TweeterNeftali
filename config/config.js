@@ -50,14 +50,29 @@ if (process.env.AIVEN_ALLOW_INSECURE === 'true') {
     // ignore
   }
 }
-const dbConfig = {
-  use_env_variable: 'DATABASE_URL',
-  dialect: 'postgres',
-  dialectOptions: {
-    ssl: sslOptions
-  },
-  logging: false
-};
+// Support running locally with SQLite for development (no Postgres required).
+// To enable SQLite locally, set USE_SQLITE=true in your .env. You can also
+// set SQLITE_FILE to change the sqlite file path (defaults to ./neftali.sqlite).
+let dbConfig;
+if (process.env.USE_SQLITE === 'true' || (process.env.DATABASE_URL && process.env.DATABASE_URL.startsWith('sqlite'))) {
+  const storageFile = process.env.SQLITE_FILE || 'neftali.sqlite';
+  console.log('Using SQLite for development. File:', storageFile);
+  dbConfig = {
+    use_env_variable: 'DATABASE_URL',
+    dialect: 'sqlite',
+    storage: storageFile,
+    logging: false
+  };
+} else {
+  dbConfig = {
+    use_env_variable: 'DATABASE_URL',
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: sslOptions
+    },
+    logging: false
+  };
+}
 
 module.exports = {
   development: dbConfig,
