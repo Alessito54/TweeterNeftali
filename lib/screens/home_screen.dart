@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       await _loadTweets();
-      _showSnackBar('Tweet publicado correctamente');
+      _showSnackBar('Post publicado correctamente');
     } catch (e) {
       _showSnackBar('Error al publicar: $e', isError: true);
     } finally {
@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       await _tweetService.deleteTweet(id);
       await _loadTweets();
-      _showSnackBar('Tweet eliminado');
+      _showSnackBar('Post eliminado');
     } catch (e) {
       _showSnackBar('Error al eliminar: $e', isError: true);
     } finally {
@@ -217,8 +217,8 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Eliminar tweet'),
-          content: Text('¿Deseas eliminar este post?'),
+          title: const Text('Eliminar post'),
+          content: const Text('¿Deseas eliminar este post?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -251,382 +251,378 @@ class _HomeScreenState extends State<HomeScreen> {
     final currentRole = (_authService.getRole() ?? 'USER').toUpperCase();
 
     return Scaffold(
-      appBar: AppBar(
-        title: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.emoji_emotions_outlined,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 10),
-              const Text('AnimeNexus'),
-            ],
-          ),
-        ),
-        centerTitle: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Center(
-              child: Chip(
-                label: Text(
-                  '@$username',
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+      body: CustomScrollView(
+        slivers: [
+          // Custom AppBar estilo anime
+          SliverAppBar(
+            expandedHeight: 140,
+            pinned: true,
+            backgroundColor: const Color(0xFF0F1419),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF6366F1), Color(0xFFEC4899), Color(0xFF0F1419)],
                   ),
-                avatar: CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  child: const Icon(Icons.person, size: 14, color: Colors.white),
                 ),
-              ),
-            ),
-          ),
-          IconButton(
-            onPressed: _isLoading ? null : _loadTweets,
-            icon: const Icon(Icons.refresh),
-            tooltip: 'Refrescar',
-          ),
-          IconButton(
-            onPressed: _logout,
-            icon: const Icon(Icons.logout),
-            tooltip: 'Cerrar sesión',
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(18),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Publicar nuevo post',
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                              ),
-                              Text(
-                                'Comparte tu fanart, captura o un pensamiento corto.',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Colors.grey.shade600,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _textController,
-                      maxLines: 3,
-                      decoration: const InputDecoration(
-                        labelText: 'Comentario',
-                        hintText: '¿Qué te inspira hoy?',
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: _pickImage,
-                            icon: const Icon(Icons.image_outlined),
-                            label: Text(
-                              _selectedImageName == null ? 'Seleccionar imagen' : 'Imagen lista',
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'AnimeNexus',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        FilledButton.icon(
-                          onPressed: _isCreating ? null : _createTweet,
-                          icon: _isCreating
-                              ? const SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
-                                )
-                              : const Icon(Icons.send_rounded),
-                          label: const Text('Publicar'),
-                        ),
-                      ],
-                    ),
-                    if (_selectedImageBytes != null) ...[
-                      const SizedBox(height: 14),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
-                        child: Container(
-                          color: Colors.grey.shade100,
-                          alignment: Alignment.center,
-                          child: Image.memory(
-                            _selectedImageBytes!,
-                            height: isWideScreen ? 180 : 120,
-                            width: double.infinity,
-                            fit: isWideScreen ? BoxFit.contain : BoxFit.cover,
-                            filterQuality: FilterQuality.medium,
+                          Text(
+                            'Comunidad de fans',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white.withValues(alpha: 0.8),
+                            ),
+                          ),
+                        ],
+                      ),
+                      CircleAvatar(
+                        radius: 28,
+                        backgroundColor: Colors.white.withValues(alpha: 0.9),
+                        child: Text(
+                          username.substring(0, 1).toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF6366F1),
                           ),
                         ),
                       ),
                     ],
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-          if (_errorMessage != null)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-              child: Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.red.shade100),
+            actions: [
+              Tooltip(
+                message: 'Refrescar',
+                child: IconButton(
+                  onPressed: _isLoading ? null : _loadTweets,
+                  icon: const Icon(Icons.refresh_rounded, color: Colors.white),
                 ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.error_outline, color: Colors.red.shade700),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        _errorMessage!,
-                        style: TextStyle(color: Colors.red.shade800),
+              ),
+              Tooltip(
+                message: 'Cerrar sesión',
+                child: IconButton(
+                  onPressed: _logout,
+                  icon: const Icon(Icons.logout_rounded, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          // Contenido principal
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                // Tarjeta de composición flotante
+                Container(
+                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF1E1B4B), Color(0xFF440066)],
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.1),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF6366F1), Color(0xFFEC4899)],
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(Icons.edit_rounded, color: Colors.white),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  '¿Qué te inspira hoy?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  'Comparte tu pasión',
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.6),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 14),
+                      TextField(
+                        controller: _textController,
+                        maxLines: 3,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white.withValues(alpha: 0.08),
+                          hintText: 'Escribe algo increíble...',
+                          hintStyle: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.5),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Colors.white.withValues(alpha: 0.1),
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Colors.white.withValues(alpha: 0.1),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: _pickImage,
+                            icon: const Icon(Icons.image_rounded),
+                            label: Text(
+                              _selectedImageName == null ? 'Imagen' : '✓ Listo',
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              side: BorderSide(
+                                color: Colors.white.withValues(alpha: 0.3),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: FilledButton.icon(
+                              onPressed: _isCreating ? null : _createTweet,
+                              icon: _isCreating
+                                  ? const SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                                      ),
+                                    )
+                                  : const Icon(Icons.send_rounded),
+                              label: const Text('Publicar'),
+                              style: FilledButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: const Color(0xFF6366F1),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (_selectedImageBytes != null) ...[
+                        const SizedBox(height: 12),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.memory(
+                            _selectedImageBytes!,
+                            height: 120,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                // Error banner
+                if (_errorMessage != null)
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.error_rounded, color: Colors.red),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            _errorMessage!,
+                            style: const TextStyle(color: Colors.red, fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          // Feed de posts
+          if (_isLoading && _tweets.isEmpty)
+            const SliverFillRemaining(
+              child: Center(child: CircularProgressIndicator()),
+            )
+          else if (_tweets.isEmpty)
+            SliverFillRemaining(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.forum_rounded, size: 64, color: Colors.grey),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Sin posts todavía',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Sé el primero en compartir',
+                      style: TextStyle(color: Colors.grey.shade600),
                     ),
                   ],
                 ),
               ),
-            ),
-          Expanded(
-            child: _isLoading && _tweets.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : RefreshIndicator(
-                    onRefresh: _loadTweets,
-                    child: _tweets.isEmpty
-                        ? ListView(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
+            )
+          else
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final tweet = _tweets[index];
+                  final reactions = _tweetReactions[tweet.id] ?? [];
+                  final replies = _tweetReplies[tweet.id] ?? [];
+
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1A1A2E),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const SizedBox(height: 80),
-                              Container(
-                                padding: const EdgeInsets.all(28),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(28),
-                                ),
+                              Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(
-                                      Icons.forum_outlined,
-                                      size: 76,
-                                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
-                                    ),
-                                    const SizedBox(height: 14),
-                                    Text(
-                                      'Todavía no hay posts publicados',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                            fontWeight: FontWeight.w800,
-                                          ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF6366F1).withValues(alpha: 0.2),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        '@${tweet.username}',
+                                        style: const TextStyle(
+                                          color: Color(0xFF6366F1),
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                        ),
+                                      ),
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      'Sé el primero en compartir tu obra favorita.',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                            color: Colors.grey.shade600,
-                                          ),
+                                      tweet.text,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1.4,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          )
-                        : ListView.separated(
-                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                            itemCount: _tweets.length,
-                            separatorBuilder: (_, __) => const SizedBox(height: 12),
-                            itemBuilder: (context, index) {
-                              final tweet = _tweets[index];
-                              final reactions = _tweetReactions[tweet.id] ?? [];
-                              final replies = _tweetReplies[tweet.id] ?? [];
-
-                              return Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                                  decoration: BoxDecoration(
-                                                    color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.55),
-                                                    borderRadius: BorderRadius.circular(999),
-                                                  ),
-                                                  child: Text(
-                                                    tweet.username != null && tweet.username!.isNotEmpty
-                                                        ? '@${tweet.username}'
-                                                        : 'Usuario',
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).colorScheme.primary,
-                                                      fontWeight: FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Text(
-                                                  tweet.text,
-                                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                                        fontWeight: FontWeight.w800,
-                                                        height: 1.25,
-                                                      ),
-                                                ),
-                                                const SizedBox(height: 12),
-                                                const SizedBox(height: 10),
-                                                Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.schedule,
-                                                      size: 14,
-                                                      color: Colors.grey.shade600,
-                                                    ),
-                                                    const SizedBox(width: 6),
-                                                    Text(
-                                                      tweet.createdAt != null ? 'Publicado ${tweet.createdAt}' : 'Publicado hace poco',
-                                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                            color: Colors.grey.shade600,
-                                                          ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          if (currentRole == 'ADMIN' || tweet.userId == currentUserId)
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.red.shade50,
-                                                borderRadius: BorderRadius.circular(14),
-                                              ),
-                                              child: IconButton(
-                                                onPressed: () => _confirmDelete(tweet),
-                                                icon: const Icon(
-                                                  Icons.delete_outline,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                      if (tweet.imageUrl != null && tweet.imageUrl!.isNotEmpty) ...[
-                                        const SizedBox(height: 14),
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(18),
-                                          child: Container(
-                                            color: Colors.grey.shade100,
-                                            alignment: Alignment.center,
-                                            child: Image.network(
-                                              tweet.imageUrl!,
-                                              height: isWideScreen ? 280 : 160,
-                                              width: double.infinity,
-                                              fit: isWideScreen ? BoxFit.contain : BoxFit.cover,
-                                              filterQuality: FilterQuality.medium,
-                                              errorBuilder: (_, __, ___) => Container(
-                                                height: isWideScreen ? 280 : 160,
-                                                width: double.infinity,
-                                                color: Colors.grey.shade200,
-                                                alignment: Alignment.center,
-                                                child: const Icon(Icons.broken_image_outlined),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                      // Reactions Widget
-                                      ReactionsWidget(
-                                        tweetId: tweet.id!,
-                                        reactions: reactions,
-                                        currentUserId: currentUserId!,
-                                        onReactionAdded: () => _loadReactionsAndReplies(tweet.id!),
-                                        onReactionRemoved: () => _loadReactionsAndReplies(tweet.id!),
-                                      ),
-                                      // Replies Widget
-                                      RepliesWidget(
-                                        tweetId: tweet.id!,
-                                        replies: replies,
-                                        currentUserId: currentUserId!,
-                                        onReplyAdded: () => _loadReactionsAndReplies(tweet.id!),
-                                        onReplyRemoved: () => _loadReactionsAndReplies(tweet.id!),
-                                      ),
-                                    ],
-                                  ),
+                              if (currentRole == 'ADMIN' || tweet.userId == currentUserId)
+                                IconButton(
+                                  onPressed: () => _confirmDelete(tweet),
+                                  icon: const Icon(Icons.close_rounded, color: Colors.red),
+                                  iconSize: 20,
                                 ),
-                              );
-                            },
+                            ],
                           ),
-                  ),
-          ),
+                          if (tweet.imageUrl != null && tweet.imageUrl!.isNotEmpty) ...[
+                            const SizedBox(height: 12),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                tweet.imageUrl!,
+                                height: 200,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => Container(
+                                  height: 200,
+                                  color: Colors.grey.shade800,
+                                  child: const Icon(Icons.broken_image_outlined),
+                                ),
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 12),
+                          ReactionsWidget(
+                            tweetId: tweet.id!,
+                            reactions: reactions,
+                            currentUserId: currentUserId!,
+                            onReactionAdded: () => _loadReactionsAndReplies(tweet.id!),
+                            onReactionRemoved: () => _loadReactionsAndReplies(tweet.id!),
+                          ),
+                          RepliesWidget(
+                            tweetId: tweet.id!,
+                            replies: replies,
+                            currentUserId: currentUserId!,
+                            onReplyAdded: () => _loadReactionsAndReplies(tweet.id!),
+                            onReplyRemoved: () => _loadReactionsAndReplies(tweet.id!),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                childCount: _tweets.length,
+              ),
+            ),
         ],
       ),
     );
   }
 }
-
-class _InfoChip extends StatelessWidget {
-  const _InfoChip({required this.label, required this.icon});
-
-  final String label;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      avatar: Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
-      label: Text(label),
-      backgroundColor: Colors.grey.shade100,
-      side: BorderSide(color: Colors.grey.shade200),
-    );
-  }
-}
- 
