@@ -27,6 +27,7 @@ class AnimeNexusApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: seed),
         useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFFFFF5FB),
+        fontFamilyFallback: const ['Noto Color Emoji'],
         appBarTheme: const AppBarTheme(centerTitle: false),
       ),
       initialRoute: authService.isAuthenticated() ? '/home' : '/login',

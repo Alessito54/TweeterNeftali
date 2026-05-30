@@ -170,6 +170,7 @@ class _ReactionsWidgetState extends State<ReactionsWidget> {
                             emoji,
                             style: TextStyle(
                               fontFamily: 'Noto Color Emoji',
+                              fontFamilyFallback: const ['Noto Color Emoji'],
                               fontSize: 20,
                               fontWeight: isUserReaction ? FontWeight.bold : FontWeight.normal,
                             ),

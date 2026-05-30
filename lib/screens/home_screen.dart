@@ -246,104 +246,100 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final isWideScreen = MediaQuery.of(context).size.width >= 900;
-    final username = _authService.getUsername() ?? 'admin';
+    final username = _authService.getUsername() ?? 'animefan';
     final currentUserId = _authService.getUserId();
     final currentRole = (_authService.getRole() ?? 'USER').toUpperCase();
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          // Custom AppBar estilo anime
-          SliverAppBar(
-            expandedHeight: 140,
-            pinned: true,
-            backgroundColor: const Color(0xFF0F1419),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFF6366F1), Color(0xFFEC4899), Color(0xFF0F1419)],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF0B1020), Color(0xFF151A33), Color(0xFF1F1234)],
+          ),
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              backgroundColor: const Color(0xFF12172A),
+              expandedHeight: 172,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                  padding: const EdgeInsets.fromLTRB(18, 76, 18, 20),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF6D28D9), Color(0xFFDB2777), Color(0xFF0B1020)],
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'AnimeNexus',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            'Comunidad de fans',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white.withValues(alpha: 0.8),
-                            ),
-                          ),
-                        ],
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(999),
+                          border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                        ),
+                        child: const Text(
+                          'AnimeNexus // feed',
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                        ),
                       ),
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: Colors.white.withValues(alpha: 0.9),
-                        child: Text(
-                          username.substring(0, 1).toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF6366F1),
-                          ),
+                      const SizedBox(height: 14),
+                      const Text(
+                        'Tu rincón anime',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                      Text(
+                        'Comparte teorías, fanart, reseñas y reacciones.',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.85),
+                          fontSize: 13,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-            actions: [
-              Tooltip(
-                message: 'Refrescar',
-                child: IconButton(
+              actions: [
+                IconButton(
                   onPressed: _isLoading ? null : _loadTweets,
                   icon: const Icon(Icons.refresh_rounded, color: Colors.white),
+                  tooltip: 'Refrescar',
                 ),
-              ),
-              Tooltip(
-                message: 'Cerrar sesión',
-                child: IconButton(
+                IconButton(
                   onPressed: _logout,
                   icon: const Icon(Icons.logout_rounded, color: Colors.white),
+                  tooltip: 'Cerrar sesión',
                 ),
-              ),
-            ],
-          ),
-          // Contenido principal
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                // Tarjeta de composición flotante
-                Container(
-                  margin: const EdgeInsets.all(12),
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+                child: Container(
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Color(0xFF1E1B4B), Color(0xFF440066)],
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.1),
-                    ),
+                    color: const Color(0xFF14192E),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.28),
+                        blurRadius: 24,
+                        offset: const Offset(0, 12),
+                      ),
+                    ],
                   ),
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -352,113 +348,94 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         children: [
                           Container(
-                            width: 48,
-                            height: 48,
+                            width: 56,
+                            height: 56,
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
-                                colors: [Color(0xFF6366F1), Color(0xFFEC4899)],
+                                colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)],
                               ),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(18),
                             ),
-                            child: const Icon(Icons.edit_rounded, color: Colors.white),
+                            child: const Icon(Icons.auto_awesome_rounded, color: Colors.white),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  '¿Qué te inspira hoy?',
-                                  style: TextStyle(
+                                Text(
+                                  '@$username',
+                                  style: const TextStyle(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16,
                                   ),
                                 ),
                                 Text(
-                                  'Comparte tu pasión',
-                                  style: TextStyle(
-                                    color: Colors.white.withValues(alpha: 0.6),
-                                    fontSize: 12,
-                                  ),
+                                  'Escribe algo de anime hoy',
+                                  style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
                                 ),
                               ],
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
                       TextField(
                         controller: _textController,
-                        maxLines: 3,
+                        maxLines: 4,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
+                          hintText: 'Ej: Terminando temporada de Jujutsu, qué joya...',
+                          hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.45)),
                           filled: true,
-                          fillColor: Colors.white.withValues(alpha: 0.08),
-                          hintText: 'Escribe algo increíble...',
-                          hintStyle: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.5),
-                          ),
+                          fillColor: Colors.white.withValues(alpha: 0.06),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Colors.white.withValues(alpha: 0.1),
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Colors.white.withValues(alpha: 0.1),
-                            ),
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
                       const SizedBox(height: 12),
-                      Row(
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
                         children: [
                           OutlinedButton.icon(
                             onPressed: _pickImage,
-                            icon: const Icon(Icons.image_rounded),
-                            label: Text(
-                              _selectedImageName == null ? 'Imagen' : '✓ Listo',
-                            ),
+                            icon: const Icon(Icons.image_outlined),
+                            label: Text(_selectedImageName == null ? 'Portada / fanart' : 'Imagen lista'),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: Colors.white,
-                              side: BorderSide(
-                                color: Colors.white.withValues(alpha: 0.3),
-                              ),
+                              side: BorderSide(color: Colors.white.withValues(alpha: 0.18)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: FilledButton.icon(
-                              onPressed: _isCreating ? null : _createTweet,
-                              icon: _isCreating
-                                  ? const SizedBox(
-                                      width: 16,
-                                      height: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor: AlwaysStoppedAnimation(Colors.white),
-                                      ),
-                                    )
-                                  : const Icon(Icons.send_rounded),
-                              label: const Text('Publicar'),
-                              style: FilledButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: const Color(0xFF6366F1),
-                              ),
+                          FilledButton.icon(
+                            onPressed: _isCreating ? null : _createTweet,
+                            icon: _isCreating
+                                ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                  )
+                                : const Icon(Icons.send_rounded),
+                            label: const Text('Publicar'),
+                            style: FilledButton.styleFrom(
+                              backgroundColor: const Color(0xFFEC4899),
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             ),
                           ),
                         ],
                       ),
                       if (_selectedImageBytes != null) ...[
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 14),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(18),
                           child: Image.memory(
                             _selectedImageBytes!,
-                            height: 120,
+                            height: isWideScreen ? 180 : 130,
                             width: double.infinity,
                             fit: BoxFit.cover,
                           ),
@@ -467,161 +444,197 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                // Error banner
-                if (_errorMessage != null)
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    padding: const EdgeInsets.all(12),
+              ),
+            ),
+            if (_errorMessage != null)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: Colors.red.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                      color: Colors.red.withValues(alpha: 0.14),
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: Colors.red.withValues(alpha: 0.25)),
                     ),
-                    child: Row(
+                    child: Text(
+                      _errorMessage!,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            if (_isLoading && _tweets.isEmpty)
+              const SliverFillRemaining(
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else if (_tweets.isEmpty)
+              SliverFillRemaining(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.error_rounded, color: Colors.red),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            _errorMessage!,
-                            style: const TextStyle(color: Colors.red, fontSize: 12),
+                        Container(
+                          width: 88,
+                          height: 88,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF6D28D9), Color(0xFFEC4899)],
+                            ),
+                            borderRadius: BorderRadius.circular(28),
                           ),
+                          child: const Icon(Icons.palette_rounded, color: Colors.white, size: 42),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Aún no hay publicaciones',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w800),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Comparte tu primera publicación anime y empieza el feed.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white.withValues(alpha: 0.72)),
                         ),
                       ],
                     ),
                   ),
-              ],
-            ),
-          ),
-          // Feed de posts
-          if (_isLoading && _tweets.isEmpty)
-            const SliverFillRemaining(
-              child: Center(child: CircularProgressIndicator()),
-            )
-          else if (_tweets.isEmpty)
-            SliverFillRemaining(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.forum_rounded, size: 64, color: Colors.grey),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Sin posts todavía',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Sé el primero en compartir',
-                      style: TextStyle(color: Colors.grey.shade600),
-                    ),
-                  ],
                 ),
-              ),
-            )
-          else
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final tweet = _tweets[index];
-                  final reactions = _tweetReactions[tweet.id] ?? [];
-                  final replies = _tweetReplies[tweet.id] ?? [];
+              )
+            else
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(14, 10, 14, 20),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final tweet = _tweets[index];
+                      final reactions = _tweetReactions[tweet.id] ?? [];
+                      final replies = _tweetReplies[tweet.id] ?? [];
 
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1A1A2E),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 14),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF171C34),
+                          borderRadius: BorderRadius.circular(22),
+                          border: Border.all(color: Colors.white.withValues(alpha: 0.07)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF6366F1).withValues(alpha: 0.2),
-                                        borderRadius: BorderRadius.circular(20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 44,
+                                    height: 44,
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)],
                                       ),
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                    child: Center(
                                       child: Text(
-                                        '@${tweet.username}',
-                                        style: const TextStyle(
-                                          color: Color(0xFF6366F1),
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 12,
+                                        tweet.username != null && tweet.username!.isNotEmpty
+                                            ? tweet.username![0].toUpperCase()
+                                            : 'A',
+                                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          tweet.username != null && tweet.username!.isNotEmpty
+                                              ? '@${tweet.username}'
+                                              : 'animefan',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w800,
+                                          ),
                                         ),
-                                      ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          tweet.text,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            height: 1.45,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.schedule_rounded, size: 14, color: Colors.white70),
+                                            const SizedBox(width: 6),
+                                            Text(
+                                              tweet.createdAt != null ? 'Publicado ${tweet.createdAt}' : 'Publicado hace poco',
+                                              style: const TextStyle(color: Colors.white70, fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      tweet.text,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        height: 1.4,
-                                      ),
+                                  ),
+                                  if (currentRole == 'ADMIN' || tweet.userId == currentUserId)
+                                    IconButton(
+                                      onPressed: () => _confirmDelete(tweet),
+                                      icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
                                     ),
-                                  ],
-                                ),
+                                ],
                               ),
-                              if (currentRole == 'ADMIN' || tweet.userId == currentUserId)
-                                IconButton(
-                                  onPressed: () => _confirmDelete(tweet),
-                                  icon: const Icon(Icons.close_rounded, color: Colors.red),
-                                  iconSize: 20,
+                              if (tweet.imageUrl != null && tweet.imageUrl!.isNotEmpty) ...[
+                                const SizedBox(height: 14),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.network(
+                                    tweet.imageUrl!,
+                                    height: isWideScreen ? 280 : 180,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) => Container(
+                                      height: isWideScreen ? 280 : 180,
+                                      alignment: Alignment.center,
+                                      color: Colors.white10,
+                                      child: const Icon(Icons.broken_image_outlined, color: Colors.white54),
+                                    ),
+                                  ),
                                 ),
+                              ],
+                              const SizedBox(height: 12),
+                              ReactionsWidget(
+                                tweetId: tweet.id!,
+                                reactions: reactions,
+                                currentUserId: currentUserId!,
+                                onReactionAdded: () => _loadReactionsAndReplies(tweet.id!),
+                                onReactionRemoved: () => _loadReactionsAndReplies(tweet.id!),
+                              ),
+                              RepliesWidget(
+                                tweetId: tweet.id!,
+                                replies: replies,
+                                currentUserId: currentUserId!,
+                                onReplyAdded: () => _loadReactionsAndReplies(tweet.id!),
+                                onReplyRemoved: () => _loadReactionsAndReplies(tweet.id!),
+                              ),
                             ],
                           ),
-                          if (tweet.imageUrl != null && tweet.imageUrl!.isNotEmpty) ...[
-                            const SizedBox(height: 12),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                tweet.imageUrl!,
-                                height: 200,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) => Container(
-                                  height: 200,
-                                  color: Colors.grey.shade800,
-                                  child: const Icon(Icons.broken_image_outlined),
-                                ),
-                              ),
-                            ),
-                          ],
-                          const SizedBox(height: 12),
-                          ReactionsWidget(
-                            tweetId: tweet.id!,
-                            reactions: reactions,
-                            currentUserId: currentUserId!,
-                            onReactionAdded: () => _loadReactionsAndReplies(tweet.id!),
-                            onReactionRemoved: () => _loadReactionsAndReplies(tweet.id!),
-                          ),
-                          RepliesWidget(
-                            tweetId: tweet.id!,
-                            replies: replies,
-                            currentUserId: currentUserId!,
-                            onReplyAdded: () => _loadReactionsAndReplies(tweet.id!),
-                            onReplyRemoved: () => _loadReactionsAndReplies(tweet.id!),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                childCount: _tweets.length,
+                        ),
+                      );
+                    },
+                    childCount: _tweets.length,
+                  ),
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -8,15 +8,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:tweeter/main.dart';
-import 'package:tweeter/services/auth_service.dart';
+import 'package:anime_nexus/main.dart';
+import 'package:anime_nexus/services/auth_service.dart';
 
 void main() {
   testWidgets('Muestra la pantalla de login', (WidgetTester tester) async {
     SharedPreferences.setMockInitialValues({});
     final authService = AuthService();
     await authService.init();
-    await tester.pumpWidget(MotosTweeterApp(authService: authService));
+    await tester.pumpWidget(AnimeNexusApp(authService: authService));
     expect(find.text('Iniciar sesión'), findsWidgets);
   });
 }
